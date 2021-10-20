@@ -1,0 +1,114 @@
+﻿@model cocycle_admin.Models.PostCode
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">PostCode</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">PostCode</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Add New</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-horizontal">
+                            <h4>PostCode</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        State
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("StateId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        Area
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        Post Code
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PostCodeName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PostCodeName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+     var ddlarea = document.getElementById("AreaId");
+
+    $('#StateId').change(function () {
+        var id = $('#StateId option:selected').val();
+          //  alert(id);
+            if (id > 0) {
+
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Content("~/Areas/GetByState/")',
+                //url: '/State/GetByState/' + id + '',
+                data: "{Stateid:'" + id + "'}",
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    ddlarea.innerHTML = "";
+                    data.forEach((item) => {
+                        ddlarea.options[ddlarea.options.length] = new Option(item.AreaName, item.Id);
+                    });
+                },
+            });
+        }
+            else {
+                ddlarea.innerHTML = "";
+                ddlarea.options[ddlarea.options.length] = new Option("Select Area", "");
+            }
+
+        });
+</script>
+    }

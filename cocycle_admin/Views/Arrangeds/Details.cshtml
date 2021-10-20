@@ -1,0 +1,247 @@
+﻿@model cocycle_admin.Models.Arranged
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Arranged Rides</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Arranged Rides</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Ride Details</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    @if (Model.RouteId != 0 && Model.RouteId != null)
+                                    {
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.RouteId)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.RouteId)
+                                        </dd>
+                                    }
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.applicationUserRequested.UserName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ApprovedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.applicationUserApproved.UserName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StartPoint)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.StartPoint)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PostCode)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PostCode.PostCodeName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.OfferingDates)
+                                    </dt>
+                                    <dd>
+                                        <div class="container p-2">
+                                            <div class="row" id="schedulelist">
+
+                                            </div>
+                                        </div>
+                                            </dd>
+                                    @if (Model.IsApproved == true)
+                                    {
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.StartTime)
+                                        </dt>
+                                        <dd>
+
+                                            @Model.StartTime.ToString("dd-MMM-yyyy hh:mm tt")
+                                        </dd>
+                                    }
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestRemark)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.RequestRemark)
+                                    </dd>
+
+                                </dl>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Model.RequestDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ApproveDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Model.ApproveDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StateId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.State.StateName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.AreaId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Area.AreaName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.IsApproved)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.IsApproved == true)
+                                        {
+                                            <span class="badge badge-success">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Pending</span>
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.IsScheduled)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.IsScheduled == true)
+                                        {
+                                            <span class="badge badge-success">Scheduled</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Pending</span>
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RideCompleted)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.RideCompleted == true)
+                                        {
+                                            <span class="badge badge-success">Completed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Pending</span>
+                                        }
+                                    </dd>
+                                    @foreach (var item in Model.FeedBack)
+                                    {
+                                        <dt> Feedback From : @item.user.UserName </dt>
+                                        <dd>@item.description</dd>
+
+                                    }
+                                </dl>
+                               
+
+                            </div>
+                        </div>
+                        <div>
+                            @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+@section Scripts{
+    <script src="https://adminlte.io/themes/v3/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- With locals-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <!-- Without locals-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script>
+
+        var datess = `@Html.Raw(@Model.OfferingDates)`.split(',');
+        console.log(datess);
+         htmllist = '';
+        datess.forEach(function (value, index) {
+            var d = value
+            var a = moment(d).format('DD-MMM-YYYY');
+            htmllist += ' <p><span class="badge badge-light">'+a+'</span></p> &nbsp; ';
+            $('#schedulelist').html("");
+        })
+        $('#schedulelist').append(htmllist);
+       // var alldates = `@Html.Raw(@Model.OfferingDates)`.replace("/","");
+        //var values = JSON.parse(alldates);
+      //  console.log("fetched", values);
+        //htmllist = '';
+        //values.forEach(function (value, index) {
+        //    const timeString12hr = new Date('1970-01-01T' + value.time + 'Z')
+        //        .toLocaleTimeString({},
+        //            { timeZone: 'UTC', hour12: true, hour: 'numeric', minute: 'numeric' }
+        //        );
+        //    var d = value.date
+        //    var a = moment(d).format('DD-MMM-YYYY');
+        //    htmllist += ' <a class="btn"> ' + a + ' - ' + timeString12hr + ' </a> &nbsp;';
+        //    $('#schedulelist').html("");
+        //})
+      //  $('#schedulelist').append(datess);
+    </script>
+}

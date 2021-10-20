@@ -1,0 +1,421 @@
+﻿@model cocycle_admin.Models.Routes
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section Style{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.css" rel="stylesheet" />*@
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Routes</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Route</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Add New</h3>
+                        </div>
+                        <div class="card-body">
+
+                            @using (Html.BeginForm("Edit", "Routes", FormMethod.Post))
+                            {
+
+                                <form action="#" class="form" id="frmroutes">
+                                    @*@Html.AntiForgeryToken()*@
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <input type="hidden" name="hidInput" id="hidInput" value="" required="required" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.RouteType, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    <select name="RouteType" id="RouteType" class="form-control" required>
+                                                        <option value="1">Commute</option>
+                                                        <option value="2">Social</option>
+                                                    </select>
+                                                    @Html.ValidationMessageFor(model => model.RouteType, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.StartingPoint, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.StartingPoint, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.StartingPoint, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EndPoint, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.EndPoint, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.EndPoint, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Addreturn, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    <div class="checkbox">
+                                                        @Html.EditorFor(model => model.Addreturn)
+                                                        @Html.ValidationMessageFor(model => model.Addreturn, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="control-label">Post Code</label>
+                                                    @Html.DropDownList("PostCodeId", new SelectList(ViewBag.postCodes, "Id", "PostCodeName"), " Select PostCode", new { @class = "form-control select2bs4" })
+                                                    @Html.ValidationMessageFor(model => model.PostCodeId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.StateId, new { @class = " control-label" })
+                                                <div class="col-md-12">
+                                                    @Html.DropDownList("StateId", new SelectList(ViewBag.States, "StateId", "StateName"), " Select State", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label " })
+                                                <div class="col-md-12">
+                                                    @Html.DropDownList("AreaId", new SelectList(ViewBag.areas, "Id", "AreaName"), " Select Area", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        @Html.ValidationMessageFor(model => model.hidInput, "", new { @class = "text-danger" })
+                                                        <div class="form-check">
+                                                            <input name="chkday" class="form-check-input chk" data-day="monday" type="checkbox" value="1" />
+                                                            <label>Monday</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input name="chkday" data-day="tuesday" class="chk" type="checkbox" value="2" />
+                                                        <label>Tuesday</label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input name="chk" class="chk" type="checkbox" value="3" data-day="wednesday" />
+                                                        <label>Wednesday</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <input name="chk" class="chk" type="checkbox" value="4" data-day="thursday" />
+                                                        <label>Thursday</label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input name="chk" class="chk" data-day="friday" type="checkbox" value="5" />
+                                                        <label>Friday</label>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <input name="chk" class="chk" type="checkbox" value="6" data-day="saturday" />
+                                                        <label>Saturday</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <input name="chk" class="chk" type="checkbox" value="7" data-day="sunday" />
+                                                        <label>Sunday</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+                            <div>
+                                @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!--  jquery script  -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!--  validation script  -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.0/jquery.validate.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        var listvalues = [];
+        let arr = [];
+        let Obj = {};
+        $(document).ready(function () {
+            $('#hidInput').val(JSON.stringify(@Html.Raw(ViewBag.schedulelist));
+            var lists = @Html.Raw(ViewBag.schedulelist)
+
+        lists.forEach((entry) => {
+            const alldays = Array.from(document.querySelectorAll(".chk"));
+            alldays.forEach((entrys) => {
+
+                if (entry.DayId == entrys.value) {
+                    entrys.setAttribute("checked", "checked");
+                }
+            });
+
+            Obj = {
+            DayId: "" + entry.DayId +""
+            };
+            arr.push(Obj);
+            });
+
+            $('#RouteType').val(@Model.RouteType);
+            var id = @Model.StateId
+               // console.log(id);
+             $.ajax({
+                type: 'POST',
+                url:'@Url.Content("~/Areas/GetByState/")',
+                data: "{Stateid:'" + id + "'}",
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+
+                    ddlarea.innerHTML = "";
+                    data.forEach((item) => {
+                        ddlarea.options[ddlarea.options.length] = new Option(item.AreaName, item.Id);
+                    });
+                },
+            });
+
+            $("#frmroutes").validate({
+                rules: {
+                    ignore: [],
+                },
+                onkeyup: false,
+                onblur: true
+            });
+
+        });
+
+        var form = $("#frmroutes");
+        form.validate();
+
+
+  //  getstate();
+    var ddlstate = document.getElementById("StateId");
+  function  getstate(){
+       $.ajax({
+                type: 'GET',
+                url:'@Url.Content("~/States/GetAll/")',
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+
+                    data.forEach((item) => {
+                        ddlstate.options[ddlstate.options.length] = new Option(item.StateName, item.Id);
+                    });
+                },
+            });
+    }
+
+    var ddlarea = document.getElementById("AreaId");
+
+    $('#StateId').change(function () {
+        var id = $('#StateId option:selected').val();
+            if (id > 0) {
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Content("~/Areas/GetByState/")',
+                //url: '/State/GetByState/' + id + '',
+                data: "{Stateid:'" + id + "'}",
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    ddlarea.innerHTML = "";
+                    data.forEach((item) => {
+                        ddlarea.options[ddlarea.options.length] = new Option(item.AreaName, item.Id);
+                    });
+                },
+            });
+        }
+            else {
+                ddlarea.innerHTML = "";
+                ddlarea.options[ddlarea.options.length] = new Option("Select Area", "");
+            }
+
+    });
+
+           $('#PostCodeId').change(function () {
+        var postcodeid = $('#PostCodeId').val();
+        if (postcodeid == "") {
+            $('#StateId').val("");
+            $('#AreaId').val("");
+        } else {
+        $.ajax({
+                type: 'POST',
+                url:'@Url.Content("~/PostCodes/GetstateandArea/")',
+                  data: "{postcode:'" + postcodeid + "'}",
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    $('#StateId').val(data.StateId);
+                   // getarea(data.StateId, data.AreaId);
+                    $('#AreaId').val(data.AreaId);
+                },
+
+            });
+        }
+
+    });
+        $("#PostCodeId").select2({
+            theme: "classic",
+            placeholder: "Start Post Code",
+            allowClear: true,
+            ajax: {
+                url: "../../PostCodes/Getpostcode",
+                type: 'get',
+                dataType: 'json',
+                //delay: 500,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term,
+                        areaid:$('#AreaId').val(),
+                    };
+                },
+                processResults: function (res) {
+                    return {
+                        results: res
+                    }
+                },
+                cache: true,
+            }
+        });
+    //$('#btnschedule').click(function () {
+    //    Obj = {};
+    //    arr = [];
+    //    const alldays = Array.from(document.querySelectorAll(".chk"));
+    //    let selecteddays = alldays.filter(function (val) {return val.checked == true;})
+    //    selecteddays.forEach(function (item) {
+    //        var day = item.dataset.day;
+    //        const dishNodeList = Array.from(document.querySelectorAll(`.${day}`));
+    //        for (var i = 0; i < dishNodeList.length; i++) {
+    //            const dishNodeListOne = dishNodeList[i];
+    //            var id = dishNodeListOne.id;
+    //            var data = $(`#${id}`).val();
+    //            var StartTime;
+    //            var EndTime;
+    //            if (i == 0)
+    //            { StartTime = data }
+    //            else
+    //            { EndTime = data }
+    //            Obj = {
+    //                StartTime: StartTime,
+    //                EndTime: EndTime,
+    //                DayId: item.value
+    //            };
+    //        }
+    //        arr.push(Obj);
+    //        var objschedule = JSON.stringify(arr);
+
+    //        console.log("array", arr);
+    //        console.log("Schedule", objschedule);
+    //        var $hidInput = $("#hidInput");
+
+
+    //        $hidInput.val(JSON.stringify(arr));
+    //    });
+
+    //    //$("#exampleModal .close").click()
+    //   // $("#exampleModal").modal("hide");
+    //    //$(".modal-backdrop").remove();
+    //});
+
+
+
+    $(".chk").click(function () {
+        if ($(this).is(":checked")) {
+            var dayid = $(this).val()
+            Obj = {
+                DayId: dayid
+            };
+            arr.push(Obj);
+        }
+        else {
+            var day = $(this).val()
+            arr.forEach((entry, i) => {
+                if (entry.DayId == day) {
+                    arr.splice(i, 1);
+                }
+            });
+        }
+        var $hidInput = $("#hidInput");
+        $hidInput.val(JSON.stringify(arr));
+        console.log("final", arr);
+    });
+    </script>
+
+}

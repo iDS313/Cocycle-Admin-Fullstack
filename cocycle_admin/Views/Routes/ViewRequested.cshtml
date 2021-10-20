@@ -1,0 +1,167 @@
+﻿@model IEnumerable<cocycle_admin.Models.Routes>
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Routes</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Routes</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Requested Routes List</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table" id="tablereqroute">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Route #.
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PostCode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StartingPoint)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.EndPoint)
+                                    </th>
+                                    <th>
+                                        Created
+                                    </th>
+                                    <th>
+                                        Requested
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsApproved)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PostCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StartingPoint)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndPoint)
+                                        </td>
+
+                                        <td>
+                                            @item.Created.ToString("dd-mm-yyyy")
+                                        </td>
+
+                                        <td>
+                                            @item.RequestedDate.ToString("dd-mm-yyyy")
+                                        </td>
+                                        <td>
+                                            @if (item.IsApproved == true)
+                                            {
+                                                <span class="badge badge-success">Approved</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">Pending</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Approve", "ApproveRequested", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Content/Assets/plugins/jquery/jquery.js"></script>
+
+
+
+<!-- DataTables  & Plugins -->
+<script src="~/Content/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/jszip/jszip.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+
+
+
+@if ((string)TempData["message"] != "")
+{
+
+    <script type="text/javascript">
+        debugger;
+        var msgtype = '@TempData["message"]';
+
+
+        $("#tablereqroute").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["csv", "excel", "pdf"]
+        }).buttons().container().appendTo('#tablereqroute_wrapper .col-md-6:eq(0)');
+
+    $(function () {
+    const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+    });
+
+        if (msgtype == "Saved") {
+            toastr.success('Saved Successfully')
+        }
+        if (msgtype == "Updated") {
+            toastr.success('Updated Successfully')
+        }
+        if (msgtype == "Delete") {
+            toastr.success('Deleted Successfully')
+        }
+        if (msgtype == "All already Exists") {
+            toastr.error('Record is Already Exist')
+        }
+        if (msgtype == "Delete_cascade") {
+            toastr.error('Unable to delete the route,The route is in use')
+        }
+    });
+
+    </script>
+}

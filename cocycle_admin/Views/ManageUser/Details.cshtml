@@ -1,0 +1,127 @@
+﻿@model cocycle_admin.Models.ApplicationUser
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Users</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Users</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info ">
+                    <div class="card-header">
+                        <h3 class="card-title">User Details</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RoleName)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.RoleName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.UserName)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.UserName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Email)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PhoneNumber)
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Address)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Address)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StateId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.State.StateName)
+                                    </dd>
+
+                                    <dt>
+                                        City
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Area.AreaName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PostCodeId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PostCode.PostCodeName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Created)
+                                    </dt>
+
+                                    <dd>
+                                        @Model.Created.ToString("dd-MMM-yyyy")
+                                    </dd>
+
+
+
+                                </dl>
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div>
+                            @Html.ActionLink("Back to List", "ViewAll", "", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

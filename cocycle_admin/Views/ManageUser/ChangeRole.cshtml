@@ -1,0 +1,142 @@
+﻿
+@model IEnumerable<cocycle_admin.Models.AllUserViewModel>
+@{
+    ViewBag.Title = "ChangeRole";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Users</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Users</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Change User Role</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table" id="tableroles">
+                            <thead>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(m => m.User.Id)</td>
+                                    <td>
+                                        @Html.DisplayNameFor(m => m.User.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayNameFor(m => m.User.Roles)
+                                    </td>
+
+                                    <td>
+                                        Action
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(m => item.User.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.User.UserName)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(m => item.Roles, item.Roles, new { @class = "form-control", id = "" + @item.User.Id + "" })
+                                        </td>
+                                        <td>
+                                            <button class="updatebutton btn btn-primary ">update</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Content/Assets/plugins/jquery/jquery.js"></script>
+
+
+<!-- DataTables  & Plugins -->
+<script src="~/Content/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/jszip/jszip.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+
+    $("#tableroles").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["csv", "excel", "pdf"]
+    }).buttons().container().appendTo('#tableroles_wrapper .col-md-6:eq(0)');
+</script>
+
+
+@section scripts
+    {
+    <script>
+
+        $(function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        });
+        //$("#tableroles").DataTable({
+        //    "responsive": true, "lengthChange": false, "autoWidth": false,
+        //    "buttons": ["csv", "excel", "pdf"]
+        //}).buttons().container().appendTo('#tableroles_wrapper .col-md-6:eq(0)');
+
+
+        $("table tbody").on("click", ".updatebutton", function () {
+
+            console.log(this);
+
+            var userId = $(this).closest("tr").find("td").eq(0).text().trim();
+            var a = $('#'+userId).find(':selected').val(); /*$("#item_Roles option:selected").val();*/
+
+            $.ajax({
+                url: "@Url.Action("UpdateRole")",
+                data: {
+                    UserId: userId,
+                    RoleId: a
+                },
+                success: function (data) {
+                 //   alert(data);
+                    toastr.success('Updated Successfully')
+                   // location.reload(true);
+                }
+            });
+        });
+    </script>
+}

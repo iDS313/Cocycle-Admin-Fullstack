@@ -1,0 +1,206 @@
+﻿@model cocycle_admin.Models.Routes
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Routes</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Route</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Route Details</h3>
+                    </div>
+                    <div class="card-body">
+                      
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PosterImage)
+                                        </dt>
+
+                                        <dd>
+                                            <img src="@Model.PosterImage" />
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.RouteType)
+
+                                        </dt>
+
+                                        <dd>
+                                            @if (Model.RouteType == 1)
+                                            {
+                                                <h6>  Commute</h6>
+                                            }
+                                            else
+                                            {
+                                                <h6>  Social</h6>
+                                            }
+                                        </dd>
+
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.StartingPoint)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.StartingPoint)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.EndPoint)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.EndPoint)
+                                        </dd>
+                                        @*<dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Model.StartTime.ToString("dd-MMM-yyyy hh:mm tt")
+        </dd>*@
+
+                                        @*<dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Model.EndTime.ToString("dd-MMM-yyyy hh:mm tt")
+        </dd>*@
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Addreturn)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Addreturn)
+                                        </dd>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.AreaId)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Area.AreaName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.StateId)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.State.StateName)
+                                        </dd>
+                                       
+
+                                    </dl>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.PostCodeId)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.PostCode.PostCodeName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Message)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Message)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.CreatedBy)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.applicationUserCreated.UserName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Created)
+                                        </dt>
+
+                                        <dd>
+                                            @Model.Created.ToString("dd-MMM-yyyy hh:mm tt")
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.RequestedBy)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.applicationUserRequested.UserName)
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.RequestedDate)
+                                        </dt>
+
+                                        <dd>
+                                            @Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                        </dd>
+
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.IsApproved)
+                                        </dt>
+
+                                        <dd>
+
+                                            @if (Model.IsApproved == true)
+                                            {
+                                                <span class="badge badge-success">Approved</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">Pending</span>
+                                            }
+                                        </dd>
+
+
+
+
+                                    </dl>
+
+
+                                </div>
+                            </div>
+                       
+
+                      
+
+                        <div>
+                            @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

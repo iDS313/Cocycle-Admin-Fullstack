@@ -1,0 +1,172 @@
+﻿@model IEnumerable<cocycle_admin.Models.RouteGroup>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Route Members</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Route Members</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Route Members List</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-responsive" id="tableroutegroup">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Request #.
+                                    </th>
+                                    <th>
+                                        Route #.
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RequestBy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RequestDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ApproveDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsApproved)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RouteId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.applicationUserRequested.UserName)
+                                        </td>
+
+                                        <td>
+                                            @item.RequestDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                        </td>
+                                        <td>
+                                            @if (item.IsApproved == true)
+                                            {
+                                                @item.ApproveDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-info">Not Approved</span>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @if (item.IsApproved == true)
+                                            {
+                                                <span class="badge badge-success">Approved</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Pending</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("View Route", "Details", "Routes", new { id = item.RouteId }, "") |
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Content/Assets/plugins/jquery/jquery.js"></script>
+
+
+<!-- DataTables  & Plugins -->
+<script src="~/Content/Assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/Content/Assets/plugins/jszip/jszip.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/Content/Assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/Content/Assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+
+@if ((string)TempData["message"] != "")
+{
+
+    <script type="text/javascript">
+        debugger;
+        var msgtype = '@TempData["message"]';
+
+       
+        $("#tableroutegroup").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["csv", "excel", "pdf"]
+        }).buttons().container().appendTo('#tableroutegroup_wrapper .col-md-6:eq(0)');
+
+    $(function () {
+    const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+    });
+
+        if (msgtype == "Saved") {
+            toastr.success('Saved Successfully')
+        }
+        if (msgtype == "Updated") {
+            toastr.success('Updated Successfully')
+        }
+        if (msgtype == "Deleted") {
+            toastr.success('Deleted Successfully')
+        }
+        if (msgtype == "All already Exists") {
+            toastr.error('Record is Already Exist')
+        }
+        if (msgtype == "Delete_cascade") {
+            toastr.warning('Unable to delete the route,The route is in use')
+        }
+        if (msgtype == "Request Approved") {
+            toastr.success('Request Approved')
+        }
+
+    });
+
+    </script>
+}

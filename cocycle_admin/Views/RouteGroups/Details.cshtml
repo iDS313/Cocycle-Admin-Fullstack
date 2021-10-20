@@ -1,0 +1,125 @@
+﻿@model cocycle_admin.Models.RouteGroup
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Route Member</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Route Members</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Route Group Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RouteId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.RouteId)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.applicationUserRequested.UserName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ApproveBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.applicationUserApproved.UserName)
+                                    </dd>
+
+                                
+
+                                </dl>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Model.RequestDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ApproveDate)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.IsApproved == true)
+                                        {
+                                            @Model.ApproveDate.ToString("dd-MMM-yyyy hh:mm tt")
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-info">Not Approved</span>
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.IsApproved)
+                                    </dt>
+
+                                    <dd>
+                                        @if (Model.IsApproved == true)
+                                        {
+                                            <span class="badge badge-success">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">Pending</span>
+                                        }
+                                    </dd>
+
+
+                                </dl>
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div>
+                            @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
