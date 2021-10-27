@@ -56,14 +56,15 @@
                                             </div>
                                         </div>
 
-                                        @*<div class="form-group">
-                                                <label class="label-default"> Description</label>
-                                                <div class="col-md-12">
-                                                    <input type="file" name="PosterImage" id="PosterImage" class="form-control" />
-                                                    @Html.EditorFor(model => model.PosterImage, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.PosterImage, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>*@
+                                        <div class="form-group">
+
+                                            <div class="col-md-12">
+                                                <label class="label-default"> Image</label>
+                                                <input type="file" name="ImageUpload" id="ImageUpload" class="form-control" />
+                                                @Html.EditorFor(model => model.PosterImage, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PosterImage, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                         @*<div class="form-group">
                                                 @Html.LabelFor(model => model.PostCode, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
@@ -442,5 +443,39 @@
             $hidInput.val(JSON.stringify(arr));
             console.log("final", $hidInput);
         });
+
+        $("#ImageUpload").change(function () {
+            //alert("clicked");
+            var formData = new FormData();
+            var totalFiles = document.getElementById("ImageUpload").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("ImageUpload").files[i];
+                formData.append("ImageUpload", file);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: 'https://localhost:44352/Routes/Upload',
+                //url: 'http://test.cocyle.co.uk/Routes/Upload',
+                data: formData,
+                crossDomain: true,
+                //dataType: 'formdata',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response.ImageAddress);
+                    $('#PosterImage').val(response.ImageAddress)
+                    // $('#btnsave').hide();
+                },
+                error: function (error) {
+                    alert("error");
+                }
+            }).done(function (response) {
+                console.log(response.ImageAddress);
+                //$('#btnsave').hide();
+               // alert('success');
+            });
+        });
+
     </script>
 }
