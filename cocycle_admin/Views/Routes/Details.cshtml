@@ -29,126 +29,151 @@
                         <h3 class="card-title">Route Details</h3>
                     </div>
                     <div class="card-body">
-                      
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="dl-horizontal">
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.PosterImage)
-                                        </dt>
 
-                                        <dd>
-                                            <img src="@Model.PosterImage" />
-                                        </dd>
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.RouteType)
-
-                                        </dt>
-
-                                        <dd>
-                                            @if (Model.RouteType == 1)
-                                            {
-                                                <h6>  Commute</h6>
-                                            }
-                                            else
-                                            {
-                                                <h6>  Social</h6>
-                                            }
-                                        </dd>
-
-
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.StartingPoint)
-                                        </dt>
-
-                                        <dd>
-                                            @Html.DisplayFor(model => model.StartingPoint)
-                                        </dd>
-
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.EndPoint)
-                                        </dt>
-
-                                        <dd>
-                                            @Html.DisplayFor(model => model.EndPoint)
-                                        </dd>
-                                        @*<dt>
-            @Html.DisplayNameFor(model => model.StartTime)
+                        <div class="row">
+                            <div class="col-md-4">
+                                <dl class="dl-horizontal">
+                                    @*<dt>
+         Image
         </dt>
 
         <dd>
-            @Model.StartTime.ToString("dd-MMM-yyyy hh:mm tt")
+            <img src="'http://test.cocycle.co.uk/'@Model.PosterImage" />
         </dd>*@
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RouteType)
 
-                                        @*<dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
+                                    </dt>
 
-        <dd>
-            @Model.EndTime.ToString("dd-MMM-yyyy hh:mm tt")
-        </dd>*@
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.Addreturn)
-                                        </dt>
-
-                                        <dd>
-                                            @Html.DisplayFor(model => model.Addreturn)
-                                        </dd>
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.AreaId)
-                                        </dt>
-
-                                        <dd>
-                                            @Html.DisplayFor(model => model.Area.AreaName)
-                                        </dd>
-
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.StateId)
-                                        </dt>
-
-                                        <dd>
-                                            @Html.DisplayFor(model => model.State.StateName)
-                                        </dd>
-                                       
-
-                                    </dl>
+                                    <dd>
+                                        @if (Model.RouteType == 1)
+                                        {
+                                            <h6>  Commute</h6>
+                                        }
+                                        else
+                                        {
+                                            <h6>  Social</h6>
+                                        }
+                                    </dd>
 
 
-                                </div>
-                                <div class="col-md-6">
-                                    <dl class="dl-horizontal">
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.PostCodeId)
-                                        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StartingPoint)
+                                    </dt>
 
-                                        <dd>
-                                            @Html.DisplayFor(model => model.PostCode.PostCodeName)
-                                        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.StartingPoint)
+                                    </dd>
 
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.Message)
-                                        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.EndPoint)
+                                    </dt>
 
-                                        <dd>
-                                            @Html.DisplayFor(model => model.Message)
-                                        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.EndPoint)
+                                    </dd>
 
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.CreatedBy)
-                                        </dt>
 
-                                        <dd>
-                                            @Html.DisplayFor(model => model.applicationUserCreated.UserName)
-                                        </dd>
 
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.Created)
-                                        </dt>
+                                    <dt>
+                                        Return Status
+                                    </dt>
 
-                                        <dd>
-                                            @Model.Created.ToString("dd-MMM-yyyy hh:mm tt")
-                                        </dd>
+                                    <dd>
+                                        @if (Model.Addreturn == true)
+                                        {
+                                            <span class="badge badge-light">Return Journey</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-light">One Way Journey</span>
+                                        }
+                                    </dd>
 
+
+
+                                    <dt>
+                                        Schedule
+                                    </dt>
+
+                                    <dd>
+                                        @foreach (var days in Model.RouteSchedule)
+                                        {
+                                            <span class="days badge badge-primary my-1"> @days.DayId</span>
+                                        }
+                                    </dd>
+                                </dl>
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <dl class="dl-horizontal">
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.AreaId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Area.AreaName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StateId)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.State.StateName)
+                                    </dd>
+                                    <dt>
+                                        Post Code
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PostCode.PostCodeName)
+                                    </dd>
+
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Message)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Message)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.StartTime)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.StartTime)
+                                    </dd>
+
+
+                                </dl>
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <dl class="dl-horizontal">
+
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CreatedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.applicationUserCreated.UserName)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Created)
+                                    </dt>
+
+                                    <dd>
+                                        @Model.Created.ToString("dd-MMM-yyyy ")
+                                    </dd>
+                                    @if (Model.RequestedBy != null)
+                                    {
                                         <dt>
                                             @Html.DisplayNameFor(model => model.RequestedBy)
                                         </dt>
@@ -156,47 +181,132 @@
                                         <dd>
                                             @Html.DisplayFor(model => model.applicationUserRequested.UserName)
                                         </dd>
-
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.RequestedDate)
-                                        </dt>
-
-                                        <dd>
-                                            @Model.RequestedDate.ToString("dd-MMM-yyyy hh:mm tt")
-                                        </dd>
-
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.IsApproved)
-                                        </dt>
-
-                                        <dd>
-
-                                            @if (Model.IsApproved == true)
-                                            {
-                                                <span class="badge badge-success">Approved</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-warning">Pending</span>
-                                            }
-                                        </dd>
+                                    }
 
 
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.RequestedDate)
+                                    </dt>
 
+                                    <dd>
+                                        @Model.RequestedDate.ToString("dd-MMM-yyyy")
+                                    </dd>
 
-                                    </dl>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.IsApproved)
+                                    </dt>
 
+                                    <dd>
 
-                                </div>
+                                        @if (Model.IsApproved == true)
+                                        {
+                                            <span class="badge badge-success">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Pending</span>
+                                        }
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.EndTime)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.EndTime)
+                                    </dd>
+                                </dl>
                             </div>
-                       
+                           
+                        </div>
 
-                      
+                        <!-- /.card-footer -->
 
                         <div>
                             @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
                         </div>
                     </div>
+                </div>
+
+                <div class="card card-primary card-widget">
+                    <div class="card-header">
+                        <h3 class="card-title">Route Feedbacks</h3>
+                        @* <div class="user-block">
+
+                            <span class="username"><a href="#">Feed Backs</a></span>
+                            <span class="description">Shared publicly - 7:30 PM Today</span>
+                                        </div>*@
+                        <!-- /.user-block -->
+                        @*<div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Mark as read">
+                                    <i class="far fa-circle"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>*@
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    @* <div class="card-body">
+
+
+                        <p>I took this photo this morning. What do you guys think?</p>
+                         <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
+                         <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
+                         <span class="float-right text-muted">127 likes - 3 comments</span>
+                                </div>*@
+                    <!-- /.card-body -->
+                    <div class="card-footer card-comments">
+                        <div class="card-comment">
+                            <!-- User image -->
+                            @foreach (var item in Model.FeedBacks)
+                            {
+                                <div class="comment-text">
+
+                                    <span class="username">
+                                        @item.user.Name
+                                        <span class="text-muted ">@item.Created.ToString("dd-MMM-yyyy")</span><br />
+                                    </span>
+
+                                    @item.description
+                                </div>
+
+
+                                @*<div class="col-md-6">
+                                        <h5>@item.user.Name</h5>
+                                        <p>@item.description</p>
+                                    </div>*@
+                            }
+
+                            <!--<div class="comment-text">
+                            <span class="username">
+                                Maria Gonzales
+                                <span class="text-muted float-right">8:03 PM Today</span>
+                            </span>-->
+                            <!-- /.username -->
+                            <!--It is a long established fact that a reader will be distracted
+                                by the readable content of a page when looking at its layout.
+                            </div>-->
+                            <!-- /.comment-text -->
+                        </div>
+                        <!-- /.card-comment -->
+                        <!-- /.card-comment -->
+                    </div>
+                    <!-- /.card-footer -->
+                    <div class="card-footer">
+                        <!--<form action="#" method="post">
+                        <img class="img-fluid img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">-->
+                        <!-- .img-push is used to add margin to elements next to floating images -->
+                        <!--<div class="img-push">
+                                <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                            </div>
+                        </form>-->
+                    </div>
+                    <!-- /.card-footer -->
                 </div>
             </div>
 
@@ -204,3 +314,25 @@
 
     </div>
 </section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var dayslist = Array.from(document.querySelectorAll(".days"));
+            dayslist.forEach(function (item) {
+                if (item.innerHTML == 1) { item.innerHTML = "Monday"; }
+                if (item.innerHTML == 2) { item.innerHTML = "Tuesday"; }
+                if (item.innerHTML == 3) { item.innerHTML = "Wednesday"; }
+                if (item.innerHTML == 4) { item.innerHTML = "Thursday"; }
+                if (item.innerHTML == 5) { item.innerHTML = "Friday"; }
+                if (item.innerHTML == 6) { item.innerHTML = "Saturday"; }
+                if (item.innerHTML == 7) { item.innerHTML = "Sunday"; }
+            });
+        });
+
+
+
+
+    </script>
+    }

@@ -15,27 +15,28 @@ namespace cocycle_admin.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Arrangeds
+
+       public void  fillviewbags()
+        {
+            ViewBag.States = db.States.Where(x => x.IsActive == true).ToList();
+            ViewBag.Areas = db.Areas.Where(x => x.IsActive == true).ToList();
+            ViewBag.Users = db.Users.ToList();
+        }
         public ActionResult Index()
         {
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            return View(db.Arrangeds.ToList());
+            fillviewbags();
+            return View(db.Arrangeds.Where(x => x.IsActive == true).ToList());
         }
        
         public ActionResult ViewScheduled()
-        {
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            return View("Index",db.Arrangeds.Where(x => x.IsScheduled == true).ToList());
+        {   
+            fillviewbags();
+            return View("Index",db.Arrangeds.Where(x => x.IsScheduled == true && x.IsActive == true).ToList());
         }
         public ActionResult ViewCompleted()
         {
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            return View("Index",db.Arrangeds.Where(x => x.RideCompleted == true).ToList());
+            fillviewbags();
+            return View("Index",db.Arrangeds.Where(x => x.RideCompleted == true && x.IsActive == true).ToList());
         }
         // GET: Arrangeds/Details/5
         public ActionResult Details(int? id)
@@ -50,9 +51,7 @@ namespace cocycle_admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
+            fillviewbags();
             return View(arranged_details);
         }
 
@@ -64,7 +63,7 @@ namespace cocycle_admin.Controllers
         public void filldropdown()
         {
             List<StateList> liststate = new List<StateList>();
-            var lststate = db.States.ToList();
+            var lststate = db.States.Where(x => x.IsActive == true).ToList();
             foreach (var s in lststate)
             {
                 StateList stateList = new StateList
@@ -82,11 +81,11 @@ namespace cocycle_admin.Controllers
             ViewBag.Users = users;
 
             List<PostCode> postCodes = new List<PostCode>();
-            postCodes = (from c in db.postCodes select c).ToList();
+            postCodes = (from c in db.postCodes select c).Where(x => x.IsActive == true).ToList();
             ViewBag.postCodes = postCodes;
 
             List<Area> areas = new List<Area>();
-            areas = (from c in db.Areas select c).ToList();
+            areas = (from c in db.Areas select c).Where(x => x.IsActive == true).ToList();
             ViewBag.areas = areas;
         }
         public ActionResult RequestRide()
@@ -187,7 +186,10 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Arranged arranged = db.Arrangeds.Find(id);
-            db.Arrangeds.Remove(arranged);
+
+            arranged.IsActive = false;
+            db.Entry(arranged).State = EntityState.Modified;
+            // db.Arrangeds.Remove(arranged);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

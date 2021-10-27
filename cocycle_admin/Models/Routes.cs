@@ -55,7 +55,7 @@ namespace cocycle_admin.Models
         [Required(ErrorMessage = "please set schedule")]
         [NotMapped]
         public string hidInput { get; set; }
-        public ICollection<FeedBack> FeedBack { get; set; }
+        public ICollection<FeedBack> FeedBacks { get; set; }
 
         [ForeignKey("PostCodeId")]
         public virtual PostCode PostCode { get; set; }
@@ -66,6 +66,7 @@ namespace cocycle_admin.Models
         {
             this.RequestedDate = DateTime.Now;
             this.Created = DateTime.Now;
+            this.IsActive = true;
         }
     }
 }

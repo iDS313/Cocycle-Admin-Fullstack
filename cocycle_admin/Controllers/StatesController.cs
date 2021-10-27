@@ -123,7 +123,9 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             State state = db.States.Find(id);
-            db.States.Remove(state);
+            //  db.States.Remove(state);
+            state.IsActive = false;
+            db.Entry(state).State = EntityState.Modified;
             db.SaveChanges();
             TempData["message"] = "Delete";
             return RedirectToAction("Index");

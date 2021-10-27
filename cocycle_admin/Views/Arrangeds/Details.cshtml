@@ -187,15 +187,13 @@
                                             <span class="badge badge-warning">Pending</span>
                                         }
                                     </dd>
+                                    
                                     @foreach (var item in Model.FeedBack)
                                     {
                                         <dt> Feedback From : @item.user.UserName </dt>
                                         <dd>@item.description</dd>
-
                                     }
                                 </dl>
-                               
-
                             </div>
                         </div>
                         <div>

@@ -26,7 +26,12 @@ namespace cocycle_admin.Models
         [NotMapped]
         public string StateName { get; set; }
 
-        
+        public Boolean IsActive { get; set; }
+
+        public Area()
+        {
+            this.IsActive = true;
+        }
 
     }
 }

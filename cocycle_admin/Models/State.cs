@@ -13,9 +13,11 @@ namespace cocycle_admin.Models
         public string CreatedBy { get; set; }
         public ICollection<Routes> RoutesList { get; set; }
         public ICollection<Arranged> Arranged { get; set; }
+        public Boolean IsActive { get; set; }
         public State()
         {
             this.Created = DateTime.Now;
+            this.IsActive = true;
         }
     }
     public class StateList

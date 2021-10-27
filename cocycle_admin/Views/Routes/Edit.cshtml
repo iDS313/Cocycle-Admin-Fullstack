@@ -5,7 +5,10 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 @section Style{
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        @*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">*@
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/Content/Assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/Assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     @*<link href="~/Content/Assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.css" rel="stylesheet" />*@
 }
 @using (Html.BeginForm())
@@ -46,8 +49,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.RouteType, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.RouteType, htmlAttributes: new { @class = "control-label " })
                                                     <select name="RouteType" id="RouteType" class="form-control" required>
                                                         <option value="1">Commute</option>
                                                         <option value="2">Social</option>
@@ -56,41 +59,39 @@
                                                 </div>
                                             </div>
 
-
-
-
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.StartingPoint, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.StartingPoint, htmlAttributes: new { @class = "control-label " })
                                                     @Html.EditorFor(model => model.StartingPoint, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.StartingPoint, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.EndPoint, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.EndPoint, htmlAttributes: new { @class = "control-label " })
                                                     @Html.EditorFor(model => model.EndPoint, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.EndPoint, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label " })
                                                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label " })
+                                               
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label " })
                                                     @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Addreturn, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.Addreturn, htmlAttributes: new { @class = "control-label " })
                                                     <div class="checkbox">
                                                         @Html.EditorFor(model => model.Addreturn)
                                                         @Html.ValidationMessageFor(model => model.Addreturn, "", new { @class = "text-danger" })
@@ -100,15 +101,15 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label ", type = "time" })
                                                     @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label " })
                                                     @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
                                                 </div>
@@ -121,15 +122,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(m => m.StateId, new { @class = " control-label" })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(m => m.StateId, new { @class = " control-label" })
                                                     @Html.DropDownList("StateId", new SelectList(ViewBag.States, "StateId", "StateName"), " Select State", new { @class = "form-control" })
                                                     @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label " })
                                                 <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label " })
                                                     @Html.DropDownList("AreaId", new SelectList(ViewBag.areas, "Id", "AreaName"), " Select Area", new { @class = "form-control" })
                                                     @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                                                 </div>
@@ -209,29 +210,42 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+
+        
+
+        var startTime = document.getElementById('StartTime');
+        startTime.value = "@Html.Raw(Model.StartTime.ToString("hh:mm:ss"))";
+
+         var endTime = document.getElementById('EndTime');
+        endTime.value = "@Html.Raw(Model.EndTime.ToString("hh:mm:ss"))";
+
         var listvalues = [];
         let arr = [];
         let Obj = {};
         $(document).ready(function () {
-            $('#hidInput').val(JSON.stringify(@Html.Raw(ViewBag.schedulelist));
+
+             $('#RouteType').val(@Model.RouteType);
+            //$('#RouteType option:selected').val(@Model.RouteType);
+            var lists= JSON.stringify(@Html.Raw(ViewBag.schedulelist))
+                $('#hidInput').val(lists);
             var lists = @Html.Raw(ViewBag.schedulelist)
 
-        lists.forEach((entry) => {
-            const alldays = Array.from(document.querySelectorAll(".chk"));
-            alldays.forEach((entrys) => {
+                lists.forEach((entry) => {
+                    const alldays = Array.from(document.querySelectorAll(".chk"));
+                    alldays.forEach((entrys) => {
 
-                if (entry.DayId == entrys.value) {
-                    entrys.setAttribute("checked", "checked");
-                }
-            });
+                        if (entry.DayId == entrys.value) {
+                            entrys.setAttribute("checked", "checked");
+                        }
+                    });
 
-            Obj = {
-            DayId: "" + entry.DayId +""
-            };
-            arr.push(Obj);
-            });
+                    Obj = {
+                        DayId: "" + entry.DayId + ""
+                    };
+                    arr.push(Obj);
+                });
 
-            $('#RouteType').val(@Model.RouteType);
+
             var id = @Model.StateId
                // console.log(id);
              $.ajax({
@@ -308,29 +322,31 @@
 
     });
 
-           $('#PostCodeId').change(function () {
-        var postcodeid = $('#PostCodeId').val();
-        if (postcodeid == "") {
-            $('#StateId').val("");
-            $('#AreaId').val("");
-        } else {
-        $.ajax({
-                type: 'POST',
-                url:'@Url.Content("~/PostCodes/GetstateandArea/")',
-                  data: "{postcode:'" + postcodeid + "'}",
-                dataType: 'json',
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    $('#StateId').val(data.StateId);
-                   // getarea(data.StateId, data.AreaId);
-                    $('#AreaId').val(data.AreaId);
-                },
+            $('#PostCodeId').change(function () {
+                var postcodeid = $(this).val();
+                if (postcodeid == "") {
+                    $('#StateId').val("");
+                    $('#AreaId').val("");
+                }
+                  else
+                    {
+                        $.ajax({
+                                type: 'POST',
+                                url:'@Url.Content("~/PostCodes/GetstateandArea/")',
+                                  data: "{postcode:'" + postcodeid + "'}",
+                                dataType: 'json',
+                                contentType: "application/json",
+                            success: function (data) {
+                                //console.log(data);
+                                $('#StateId').val(data.StateId);
+                                $('#AreaId').val(data.AreaId);
+                            }
+
+                        });
+                     }
 
             });
-        }
 
-    });
         $("#PostCodeId").select2({
             theme: "classic",
             placeholder: "Start Post Code",
@@ -343,7 +359,7 @@
                 data: function (params) {
                     return {
                         searchTerm: params.term,
-                        areaid:$('#AreaId').val(),
+                        areaid: $('#AreaId').val(),
                     };
                 },
                 processResults: function (res) {
@@ -354,6 +370,12 @@
                 cache: true,
             }
         });
+
+        $("#PostCodeId").select2().select2('val',''+@Model.PostCodeId+'');
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
     //$('#btnschedule').click(function () {
     //    Obj = {};
     //    arr = [];
@@ -416,6 +438,8 @@
         $hidInput.val(JSON.stringify(arr));
         console.log("final", arr);
     });
+
+
     </script>
 
 }

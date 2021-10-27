@@ -14,27 +14,28 @@ namespace cocycle_admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public void fillviewbags()
+        {
+            ViewBag.Users = db.Users.ToList();
+            ViewBag.Routes = db.Routes.Where(x => x.IsActive == true).ToList();
+            ViewBag.postCodes = db.postCodes.Where(x => x.IsActive == true).ToList();
+        }
         // GET: RouteGroups
         public ActionResult Index()
         {
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.Routes = db.Routes.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
-            return View(db.RouteGroups.Include(x=>x.routes).ToList());
+            fillviewbags();
+            return View(db.RouteGroups.Include(x=>x.routes).Where(x => x.IsActive == true).ToList());
         }
         public ActionResult ViewRequest()
         {
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.Routes = db.Routes.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
-            return View(db.RouteGroups.Where(x=>x.IsApproved==false).Include(x => x.routes).ToList());
+            fillviewbags();
+            return View(db.RouteGroups.Where(x=>x.IsApproved==false && x.IsActive == true).Include(x => x.routes).ToList());
         }
         public ActionResult ViewRequestbyRoute()
         {
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.Routes = db.Routes.ToList();
+            fillviewbags();
             var routes = db.Routes.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
+            ViewBag.postCodes = db.postCodes.Where(x => x.IsActive == true).ToList();
             return View(routes);
         }
 
@@ -44,7 +45,7 @@ namespace cocycle_admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var routeGroup = db.RouteGroups.Where(x=>x.RouteId == routeid);
+            var routeGroup = db.RouteGroups.Where(x=>x.RouteId == routeid && x.IsActive == true);
             if (routeGroup == null)
             {
                 // return HttpNotFound();
@@ -52,9 +53,7 @@ namespace cocycle_admin.Controllers
                 return RedirectToAction("ViewRequestbyRoute");
             }
 
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.Routes = db.Routes.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
+            fillviewbags();
             var routeGroups = db.RouteGroups.Where(x=>x.RouteId==routeid).ToList();
             if (routeGroups.Count>0)
             {
@@ -82,9 +81,7 @@ namespace cocycle_admin.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.Routes = db.Routes.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
+            fillviewbags();
             return View(routeGroup);
         }
         public ActionResult ViewRoute(int? id)
@@ -198,7 +195,10 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             RouteGroup routeGroup = db.RouteGroups.Find(id);
-            db.RouteGroups.Remove(routeGroup);
+
+            routeGroup.IsActive = false;
+            db.Entry(routeGroup).State = EntityState.Modified;
+
             db.SaveChanges();
             TempData["message"] = "Deleted";
             return RedirectToAction("Index");

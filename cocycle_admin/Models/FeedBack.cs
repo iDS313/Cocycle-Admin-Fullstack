@@ -25,10 +25,12 @@ namespace cocycle_admin.Models
 
         [ForeignKey("RouteId")]
         public Routes Routes { get; set; }
+        public Boolean IsActive { get; set; }
 
         public FeedBack()
         {
             this.Created = DateTime.Now;
+            this.IsActive = true;
         }
         [NotMapped]
         public Boolean RideHappened { get; set; }

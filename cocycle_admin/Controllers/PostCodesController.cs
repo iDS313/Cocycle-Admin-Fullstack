@@ -18,13 +18,13 @@ namespace cocycle_admin.Controllers
         {
             var p = db.postCodes;
             var a = areaid != null ? p.Where(x => x.AreaId == areaid) : p;
-            var postcodes = searchTerm != null ? a.Where(x => x.PostCodeName.Contains(searchTerm)) : a;
+            var postcodes = searchTerm != null ? a.Where(x => x.PostCodeName.Contains(searchTerm) && x.IsActive == true) : a;
             return Json(postcodes.Select(x => new { id = x.Id, text = x.PostCodeName }).ToList(),
                 JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetstateandArea(int postcode)
         {
-            var postcodes = db.postCodes.Where(x => x.Id == postcode).FirstOrDefault();
+            var postcodes = db.postCodes.Where(x => x.Id == postcode && x.IsActive == true).FirstOrDefault();
             return Json(postcodes, JsonRequestBehavior.AllowGet);
         }
 
@@ -32,7 +32,7 @@ namespace cocycle_admin.Controllers
         public ActionResult Index()
         {
             var postCodes = db.postCodes.Include(p => p.Area).Include(p => p.State);
-            return View(postCodes.ToList());
+            return View(postCodes.Where(x => x.IsActive == true).ToList());
         }
 
         // GET: PostCodes/Details/5
@@ -107,8 +107,8 @@ namespace cocycle_admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AreaId = new SelectList(db.Areas, "Id", "AreaName", postCode.AreaId);
-            ViewBag.StateId = new SelectList(db.States, "Id", "StateName", postCode.StateId);
+            ViewBag.AreaId = new SelectList(db.Areas.Where(x => x.IsActive == true), "Id", "AreaName", postCode.AreaId);
+            ViewBag.StateId = new SelectList(db.States.Where(x => x.IsActive == true), "Id", "StateName", postCode.StateId);
             return View(postCode);
         }
 
@@ -133,7 +133,10 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PostCode postCode = db.postCodes.Find(id);
-            db.postCodes.Remove(postCode);
+
+            postCode.IsActive = false;
+            db.Entry(postCode).State = EntityState.Modified;
+            // db.postCodes.Remove(postCode);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

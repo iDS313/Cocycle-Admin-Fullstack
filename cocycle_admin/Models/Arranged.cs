@@ -56,11 +56,14 @@ namespace cocycle_admin.Models
             this.StartTime = DateTime.Now;
             this.ApproveDate = DateTime.Now;
             this.RequestDate = DateTime.Now;
-
+            this.IsActive = true;
         }
         public Boolean RideCompleted { get; set; }
         [ForeignKey("PostCodeId")]
         public virtual PostCode PostCode { get; set; }
+
+        public Boolean IsActive { get; set; }
+
 
     }
 

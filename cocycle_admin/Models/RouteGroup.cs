@@ -24,8 +24,11 @@ namespace cocycle_admin.Models
 
         [ForeignKey("RouteId")]
         public Routes routes { get; set; }
+        public Boolean IsActive { get; set; }
+
         public RouteGroup()
         {
+            this.IsActive = true;
             this.ApproveDate = DateTime.Now;
             this.RequestDate = DateTime.Now;
         }

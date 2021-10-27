@@ -18,21 +18,24 @@ namespace cocycle_admin.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Routes
+
+        public void fillviewbags()
+        {
+            ViewBag.States = db.States.Where(x => x.IsActive == true).ToList();
+            ViewBag.Areas = db.Areas.Where(x => x.IsActive == true).ToList();
+            ViewBag.Users = db.Users.ToList();
+            ViewBag.postCodes = db.postCodes.Where(x => x.IsActive == true).ToList();
+        }
         public ActionResult Index()
         {
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
-            return View(db.Routes.ToList());
+            fillviewbags();
+            return View(db.Routes.Where(x => x.IsActive == true).ToList());
         }
         public ActionResult ViewRequested()
         {
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
-            return View(db.Routes.Where(x => x.IsApproved == false).ToList());
+            fillviewbags();
+            var details = db.Routes.Include(x => x.RouteSchedule).Where(x => x.IsApproved == false && x.IsActive == true).ToList();
+            return View(details);
         }
 
         // GET: Routes/Details/5
@@ -43,21 +46,20 @@ namespace cocycle_admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Routes routes = db.Routes.Find(id);
+            routes.FeedBacks = db.FeedBacks.Where(f => f.RouteId == routes.Id && f.IsActive == true).ToList();
+            routes.RouteSchedule = db.RouteSchedules.Where(x => x.RouteId == id).ToList();
             if (routes == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
+            fillviewbags();
             return View(routes);
         }
 
         public void filldropdown()
         {
             List<StateList> liststate = new List<StateList>();
-            var lststate = db.States.ToList();
+            var lststate = db.States.Where(x => x.IsActive == true).ToList();
             foreach (var s in lststate)
             {
                 StateList stateList = new StateList
@@ -76,11 +78,11 @@ namespace cocycle_admin.Controllers
             ViewBag.UserTypes = UserTypes;
 
             List<Area> areas = new List<Area>();
-            areas = (from c in db.Areas select c).ToList();
+            areas = (from c in db.Areas select c).Where(x => x.IsActive == true).ToList();
             ViewBag.areas = areas;
 
             List<PostCode> postCodes = new List<PostCode>();
-            postCodes = (from c in db.postCodes select c).ToList();
+            postCodes = (from c in db.postCodes select c).Where(x => x.IsActive == true).ToList();
             ViewBag.postCodes = postCodes;
         }
         // GET: Routes/Create
@@ -170,10 +172,27 @@ namespace cocycle_admin.Controllers
             if (ModelState.IsValid)
             {
                 var currentUser = User.Identity.GetUserId();
-                routes.CreatedBy = currentUser;
+                routes.IsApproved = true;
                 routes.Created = DateTime.Now;
+
+                var schedule = routes.hidInput;
+                var schedules = schedule.Replace(@"\", string.Empty);
+                var data = JsonConvert.DeserializeObject<List<RouteSchedule>>(schedule);
                 db.Entry(routes).State = EntityState.Modified;
                 db.SaveChanges();
+                if (data.Count > 0)
+                {
+                    db.RouteSchedules.RemoveRange(db.RouteSchedules.Where(x => x.RouteId == routes.Id));
+                    foreach (var obj in data)
+                    {
+                        obj.RouteId = routes.Id;
+                    }
+                    foreach (var obj in data)
+                    {
+                        db.RouteSchedules.Add(obj);
+                    }
+                    db.SaveChanges();
+                }
                 TempData["message"] = "Updated";
                 return RedirectToAction("Index");
             }
@@ -194,10 +213,7 @@ namespace cocycle_admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.States = db.States.ToList();
-            ViewBag.Areas = db.Areas.ToList();
-            ViewBag.Users = db.Users.ToList();
-            ViewBag.postCodes = db.postCodes.ToList();
+            fillviewbags();
             return View(routes);
         }
 
@@ -230,7 +246,10 @@ namespace cocycle_admin.Controllers
             try
             {
                 Routes routes = db.Routes.Find(id);
-                db.Routes.Remove(routes);
+                routes.hidInput = "schedule";
+                routes.IsActive = false;
+                db.Entry(routes).State = EntityState.Modified;
+                // db.Routes.Remove(routes);
                 db.SaveChanges();
                 TempData["message"] = "Delete";
             }

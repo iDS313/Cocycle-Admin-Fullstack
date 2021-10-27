@@ -10,6 +10,7 @@ using cocycle_admin.Models;
 
 namespace cocycle_admin.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AreasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,9 +19,9 @@ namespace cocycle_admin.Controllers
         public ActionResult Index()
         {
           
-            ViewBag.States = db.States.ToList();
+            ViewBag.States = db.States.Where(x => x.IsActive == true).ToList();
             List<Area> areas = new List<Area>();
-            var allareas = db.Areas.ToList();
+            var allareas = db.Areas.Where(x => x.IsActive == true).ToList();
             foreach (var item in allareas)
             {
                 Area a = new Area();
@@ -54,7 +55,7 @@ namespace cocycle_admin.Controllers
             List<Area> Areas = new List<Area>();
             if (Stateid > 0)
             {
-                Areas = db.Areas.Where(x => x.StateId == Stateid).ToList();
+                Areas = db.Areas.Where(x => x.StateId == Stateid && x.IsActive==true).ToList();
             }
             else
             {
@@ -68,7 +69,7 @@ namespace cocycle_admin.Controllers
         public ActionResult Create()
         {
             List<State> States = new List<State>();
-            States = (from c in db.States select c).ToList();
+            States = (from c in db.States select c).Where(x=>x.IsActive==true).ToList();
             ViewBag.States = States;
             return View();
         }
@@ -113,7 +114,7 @@ namespace cocycle_admin.Controllers
             }
 
             List<State> States = new List<State>();
-            States = (from c in db.States select c).ToList();
+            States = (from c in db.States select c).Where(x => x.IsActive == true).ToList();
             ViewBag.States = States;
             return View(area);
         }
@@ -156,7 +157,9 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Area area = db.Areas.Find(id);
-            db.Areas.Remove(area);
+            area.IsActive = false;
+            db.Entry(area).State = EntityState.Modified;
+            //   db.Areas.Remove(area);
             db.SaveChanges();
             TempData["message"] = "Delete";
             return RedirectToAction("Index");

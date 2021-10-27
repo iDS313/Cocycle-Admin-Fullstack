@@ -110,7 +110,9 @@ namespace cocycle_admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             FeedBack feedBack = db.FeedBacks.Find(id);
-            db.FeedBacks.Remove(feedBack);
+            feedBack.IsActive = false;
+            db.Entry(feedBack).State = EntityState.Modified;
+            // db.FeedBacks.Remove(feedBack);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
